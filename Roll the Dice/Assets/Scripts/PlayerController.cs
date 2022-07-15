@@ -6,24 +6,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private InputController input;
-    public Rigidbody rb;
+    [HideInInspector] private InputController input;
+    [HideInInspector] public Rigidbody rb;
 
     [SerializeField] private float speed;
-    [SerializeField] private float moveTime;
+    [HideInInspector] private float gravity = 5;
 
-    private float elapsedTime;
-    public bool moving = false;
-    public bool movingRight = false;
-    public bool movingLeft = false;
-    public bool movingUp = false;
-    public bool movingDown = false;
-    
-    public Vector3 currentPos;
-    public Vector3 newPos;
+    [HideInInspector] public bool moving = false;
+    [HideInInspector] public bool movingRight = false;
+    [HideInInspector] public bool movingLeft = false;
+    [HideInInspector] public bool movingUp = false;
+    [HideInInspector] public bool movingDown = false;
+    [HideInInspector] public bool respawn = false;
 
-    public Quaternion currentRot = Quaternion.Euler(0,0,0);
-    public Quaternion newRot = Quaternion.Euler(0,0,0);
+    [HideInInspector] public Vector3 currentPos;
+    [HideInInspector] public Vector3 newPos;
+
+    [HideInInspector] public Quaternion currentRot = Quaternion.Euler(0,0,0);
+    [HideInInspector] public Quaternion newRot = Quaternion.Euler(0,0,0);
 
     private void Awake()
     {
@@ -55,10 +55,7 @@ public class PlayerController : MonoBehaviour
         {
             currentPos = transform.position;
             newPos = transform.position + new Vector3(1, 0, 0);
-            //currentRot = Vector3.up;
-            //newRot = Quaternion.Euler(currentRot.x, currentRot.y, currentRot.z -90);
             movingRight = true;
-            //moving = true;
         }
     }
 
@@ -68,10 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             currentPos = transform.position;
             newPos = transform.position + new Vector3(-1, 0, 0);
-            //currentRot = transform.rotation;
-            //newRot = currentRot * Quaternion.Euler(0, 0, 90);
             movingLeft = true;
-            //moving = true;
         }
     }
 
@@ -81,10 +75,7 @@ public class PlayerController : MonoBehaviour
         {
             currentPos = transform.position;
             newPos = transform.position + new Vector3(0, 0, -1);
-            //currentRot = transform.rotation;
-            //newRot = currentRot * Quaternion.Euler(0, -90, 0);
             movingDown = true;
-            //moving = true;
         }
     }
     private void MoveUp()
@@ -93,15 +84,19 @@ public class PlayerController : MonoBehaviour
         {
             currentPos = transform.position;
             newPos = transform.position + new Vector3(0, 0, 1);
-            //currentRot = transform.rotation;
-            //newRot = currentRot * Quaternion.Euler(0, 90, 0);
             movingUp = true;
-            //moving = true;
         }
     }
 
     void Update()
     {
+        if (respawn == true)
+        {
+            rb.Sleep();
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            respawn = false;
+        }
+
         if (moving == true)
         {
             return;
@@ -129,13 +124,11 @@ public class PlayerController : MonoBehaviour
     {
         moving = true;
         float remainingAngle = 90;
-        //newPos = transform.position + direction;
         Vector3 rotationCenter = transform.position + direction / 2f + Vector3.down / 2f;
         Vector3 rotationAxis = Vector3.Cross(Vector3.up, direction);
 
         while (remainingAngle > 0)
         {
-            //transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime / moveTime);
             float rotationAngle = Mathf.Min(Time.deltaTime * speed, remainingAngle);
             transform.RotateAround(rotationCenter, rotationAxis, rotationAngle);
             remainingAngle -= rotationAngle;
@@ -146,5 +139,10 @@ public class PlayerController : MonoBehaviour
         movingRight = false;
         movingUp = false;
         moving = false;
+    }
+
+    private void FixedUpdate()
+    {
+        rb.AddForce(Physics.gravity * gravity);
     }
 }

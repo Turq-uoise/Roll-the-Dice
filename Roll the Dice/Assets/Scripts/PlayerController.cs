@@ -17,10 +17,6 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool movingLeft = false;
     [HideInInspector] public bool movingUp = false;
     [HideInInspector] public bool movingDown = false;
-    [HideInInspector] public bool respawn = false;
-
-    [HideInInspector] public Vector3 currentPos;
-    [HideInInspector] public Vector3 newPos;
 
     [HideInInspector] public Quaternion currentRot = Quaternion.Euler(0,0,0);
     [HideInInspector] public Quaternion newRot = Quaternion.Euler(0,0,0);
@@ -53,8 +49,6 @@ public class PlayerController : MonoBehaviour
     {
         if (movingRight == false && moving == false)
         {
-            currentPos = transform.position;
-            newPos = transform.position + new Vector3(1, 0, 0);
             movingRight = true;
         }
     }
@@ -63,8 +57,6 @@ public class PlayerController : MonoBehaviour
     {
         if (movingLeft == false && moving == false)
         {
-            currentPos = transform.position;
-            newPos = transform.position + new Vector3(-1, 0, 0);
             movingLeft = true;
         }
     }
@@ -73,8 +65,6 @@ public class PlayerController : MonoBehaviour
     {
         if (movingDown == false && moving == false)
         {
-            currentPos = transform.position;
-            newPos = transform.position + new Vector3(0, 0, -1);
             movingDown = true;
         }
     }
@@ -82,21 +72,12 @@ public class PlayerController : MonoBehaviour
     {
         if (movingUp == false && moving == false)
         {
-            currentPos = transform.position;
-            newPos = transform.position + new Vector3(0, 0, 1);
             movingUp = true;
         }
     }
 
     void Update()
     {
-        if (respawn == true)
-        {
-            rb.Sleep();
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            respawn = false;
-        }
-
         if (moving == true)
         {
             return;

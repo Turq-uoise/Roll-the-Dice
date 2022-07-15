@@ -3,12 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - one
+  - two
+  - three
+  - four
+  - five
+  - six
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Triggers
   - Water
   - UI
   - 

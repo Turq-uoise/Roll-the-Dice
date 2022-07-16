@@ -74,19 +74,19 @@ public class winCheckone : MonoBehaviour
             }
             if (SceneManager.GetActiveScene().buildIndex == 2)
             {
-                if (playerController.moveCount > 50)
+                if (playerController.moveCount > 35)
                 {
                     redstar.SetActive(false);
                 }
-                if (playerController.moveCount > 51)
+                if (playerController.moveCount > 36)
                 {
                     star3.SetActive(false);
                 }
-                if (playerController.moveCount > 99)
+                if (playerController.moveCount > 51)
                 {
                     star2.SetActive(false);
                 }
-                if (playerController.moveCount > 150)
+                if (playerController.moveCount > 124)
                 {
                     star1.SetActive(false);
                 }

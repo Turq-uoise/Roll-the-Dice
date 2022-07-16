@@ -3,14 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] private InputController input;
+    [HideInInspector] public InputController input;
     [HideInInspector] public Rigidbody rb;
+
+    public GameObject Respawner;
+    public GameObject winDow;
+    public GameObject bridge;
 
     [SerializeField] private float speed;
     [HideInInspector] private float gravity = 5;
+    [HideInInspector] public int moveCount = 0;
 
     [HideInInspector] public bool moving = false;
     [HideInInspector] public bool movingRight = false;
@@ -43,6 +49,22 @@ public class PlayerController : MonoBehaviour
         input.Ground.MoveDown.performed += _ => MoveDown();
         input.Ground.MoveLeft.performed += _ => MoveLeft();
         input.Ground.MoveRight.performed += _ => MoveRight();
+        input.Ground.Reset.performed += _ => Reset();
+    }
+
+    public void Reset()
+    {
+        winDow.SetActive(false);
+        input.Enable();
+
+        bridge.SetActive(false);
+
+        moving = false;
+        moveCount = 0;
+
+        rb.Sleep();
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.position = Respawner.transform.position;
     }
 
     private void MoveRight()
@@ -107,6 +129,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Roll(Vector3 direction)
     {
+        moveCount++;
         moving = true;
         float remainingAngle = 90;
         Vector3 rotationCenter = transform.position + direction / 2f + Vector3.down / 2f;
@@ -138,5 +161,10 @@ public class PlayerController : MonoBehaviour
         {
             moving = true;
         }
+    }
+
+    public void NextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

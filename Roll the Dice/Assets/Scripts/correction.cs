@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class correction : MonoBehaviour
 {
-    public Text correctionText;
+    public GameObject correctionText;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +15,6 @@ public class correction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        correctionText.SetActive(true);
     }
 }

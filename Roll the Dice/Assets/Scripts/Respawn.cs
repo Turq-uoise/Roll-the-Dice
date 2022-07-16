@@ -20,6 +20,7 @@ public class Respawn : MonoBehaviour
             playerController.rb.Sleep();
             playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
             playerController.moving = false;
+            playerController.moveCount = 0;
         }
     }
 }

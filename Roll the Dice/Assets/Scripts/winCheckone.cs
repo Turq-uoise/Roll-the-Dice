@@ -1,21 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class winCheckone : MonoBehaviour
 {
-    void Start() { Physics.IgnoreLayerCollision(1, 3); }
+    public GameObject correctionText;
+    public TextMeshProUGUI movement;
+    public GameObject winDow;
+    PlayerController playerController;
+    [SerializeField] GameObject player;
+
+    void Start() 
+    { 
+        Physics.IgnoreLayerCollision(1, 3);
+        playerController = player.GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        movement.text = "Moves: " + playerController.moveCount;
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "one") 
-        { 
-            Debug.Log("Win!"); 
+        {
+            winDow.SetActive(true);
+            playerController.input.Disable();
         }
 
         else 
-        { 
-            Debug.Log("You need the numbers to touch!"); 
+        {
+            correctionText.SetActive(false);
+            correctionText.SetActive(true);
         }
     }
+
+    
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 791408400037086782}
   - component: {fileID: 6998996704415062888}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grass Tile 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 7947232117514820397}
   - component: {fileID: 3117330439032529301}
   - component: {fileID: 1225463706062625095}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 6782233535297404122}
   - component: {fileID: 4101843025182682716}
   - component: {fileID: 7149644545098836804}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}

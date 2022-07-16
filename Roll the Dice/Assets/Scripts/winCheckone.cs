@@ -8,8 +8,14 @@ public class winCheckone : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "one") { Debug.Log("Win!"); }
+        if (other.gameObject.tag == "one") 
+        { 
+            Debug.Log("Win!"); 
+        }
 
-        else { Debug.Log("You need the numbers to touch!"); }
+        else 
+        { 
+            Debug.Log("You need the numbers to touch!"); 
+        }
     }
 }

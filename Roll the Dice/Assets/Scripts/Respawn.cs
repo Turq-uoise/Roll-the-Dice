@@ -14,8 +14,12 @@ public class Respawn : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.position = Respawner.transform.position;
-        playerController.rb.Sleep();
-        playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (other.tag == "Player")
+        {
+            other.transform.position = Respawner.transform.position;
+            playerController.rb.Sleep();
+            playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
+            playerController.moving = false;
+        }
     }
 }

@@ -99,6 +99,10 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Roll(Vector3.back));
         }
+        Vector3 tmp = transform.position;
+        tmp.x = Mathf.Round(tmp.x);
+        tmp.y = 0.5f;
+        tmp.z = Mathf.Round(tmp.z);
     }
 
     IEnumerator Roll(Vector3 direction)
@@ -112,9 +116,14 @@ public class PlayerController : MonoBehaviour
         {
             float rotationAngle = Mathf.Min(Time.deltaTime * speed, remainingAngle);
             transform.RotateAround(rotationCenter, rotationAxis, rotationAngle);
-            remainingAngle -= rotationAngle;
+            remainingAngle -= rotationAngle; 
             yield return null;
         }
+        Vector3 tmp = transform.position;
+        tmp.x = Mathf.Round(tmp.x);
+        tmp.y = 0.5f;
+        tmp.z = Mathf.Round(tmp.z);
+        transform.position = tmp;
         movingDown = false;
         movingLeft = false;
         movingRight = false;
@@ -125,5 +134,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.AddForce(Physics.gravity * gravity);
+        if (transform.position.y < 0.4)
+        {
+            moving = true;
+        }
     }
 }

@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool movingLeft = false;
     [HideInInspector] public bool movingUp = false;
     [HideInInspector] public bool movingDown = false;
+    public int portalled = 0;
 
     [HideInInspector] public Quaternion currentRot = Quaternion.Euler(0,0,0);
     [HideInInspector] public Quaternion newRot = Quaternion.Euler(0,0,0);
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            breakable = breakblock.GetComponent<breakablle>();
+            breakable = breakblock.GetComponentInChildren<breakablle>();
         }
     }
 
@@ -57,32 +58,31 @@ public class PlayerController : MonoBehaviour
         input.Ground.MoveLeft.performed += _ => MoveLeft();
         input.Ground.MoveRight.performed += _ => MoveRight();
         input.Ground.Reset.performed += _ => Reset();
+        Application.targetFrameRate = 120;
     }
 
     public void Reset()
     {
-        winDow.SetActive(false);
-        input.Enable();
+        //winDow.SetActive(false);
+        //input.Enable();
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            bridge.SetActive(false);
-        }
+        //if (SceneManager.GetActiveScene().buildIndex == 1)
+        //{
+        //    bridge.SetActive(false);
+        //}
 
-        if (SceneManager.GetActiveScene().buildIndex == 2)
-        {
-            breakable.rb.isKinematic = true;
-            breakable.rb.useGravity = false;
-            breakable.transform.position = new Vector3(1, 0, 5);
-            breakable.transform.rotation = Quaternion.Euler(-90, 0, 0);
-        }
+        //if (SceneManager.GetActiveScene().buildIndex == 2)
+        //{
+        //    breakable.Respawn();
+        //}
 
-        moving = false;
-        moveCount = 0;
+        //moving = false;
+        //moveCount = 0;
 
-        rb.Sleep();
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-        transform.position = Respawner.transform.position;
+        //rb.Sleep();
+        //transform.rotation = Quaternion.Euler(0, 0, 0);
+        //transform.position = Respawner.transform.position;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void MoveRight()

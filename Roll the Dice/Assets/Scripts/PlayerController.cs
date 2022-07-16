@@ -27,10 +27,17 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Quaternion currentRot = Quaternion.Euler(0,0,0);
     [HideInInspector] public Quaternion newRot = Quaternion.Euler(0,0,0);
 
+    public breakablle breakable;
+    public GameObject breakblock;
+
     private void Awake()
     {
         input = new InputController();
         rb = GetComponent<Rigidbody>();
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            breakable = breakblock.GetComponent<breakablle>();
+        }
     }
 
     private void OnEnable()
@@ -57,7 +64,18 @@ public class PlayerController : MonoBehaviour
         winDow.SetActive(false);
         input.Enable();
 
-        bridge.SetActive(false);
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            bridge.SetActive(false);
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            breakable.rb.isKinematic = true;
+            breakable.rb.useGravity = false;
+            breakable.transform.position = new Vector3(1, 0, 5);
+            breakable.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        }
 
         moving = false;
         moveCount = 0;

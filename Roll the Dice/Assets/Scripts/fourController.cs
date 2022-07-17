@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class fourController : MonoBehaviour
 {
     [HideInInspector] public InputController input;
     [HideInInspector] public Rigidbody rb;
@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public GameObject Respawner;
     public GameObject winDow;
     public GameObject bridge;
-    public GameObject pauseMenu;
 
     [SerializeField] private float speed;
     [HideInInspector] private float gravity = 5;
@@ -24,13 +23,23 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool movingLeft = false;
     [HideInInspector] public bool movingUp = false;
     [HideInInspector] public bool movingDown = false;
-    [HideInInspector] public bool timescale = false;
-    [HideInInspector] public int portalled = 0;
+    public int portalled = 0;
+
+    [HideInInspector] public Quaternion currentRot = Quaternion.Euler(0, 0, 0);
+    [HideInInspector] public Quaternion newRot = Quaternion.Euler(0, 0, 0);
+
+    public breakablle breakable;
+    public GameObject breakblock;
 
     private void Awake()
     {
         input = new InputController();
         rb = GetComponent<Rigidbody>();
+        Physics.IgnoreLayerCollision(1, 10);
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            breakable = breakblock.GetComponentInChildren<breakablle>();
+        }
     }
 
     private void OnEnable()
@@ -50,59 +59,12 @@ public class PlayerController : MonoBehaviour
         input.Ground.MoveLeft.performed += _ => MoveLeft();
         input.Ground.MoveRight.performed += _ => MoveRight();
         input.Ground.Reset.performed += _ => Reset();
-        input.Ground.Pause.performed += _ => Pause();
         Application.targetFrameRate = 120;
-    }
-
-    public void Pause()
-    {
-        timescale = !timescale;
-        if (timescale == true)
-        {
-            Time.timeScale = 0;
-            pauseMenu.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            pauseMenu.SetActive(false);
-        }
     }
 
     public void Reset()
     {
-        //winDow.SetActive(false);
-        //input.Enable();
-
-        //if (SceneManager.GetActiveScene().buildIndex == 1)
-        //{
-        //    bridge.SetActive(false);
-        //}
-
-        //if (SceneManager.GetActiveScene().buildIndex == 2)
-        //{
-        //    breakable.Respawn();
-        //}
-
-        //moving = false;
-        //moveCount = 0;
-
-        //rb.Sleep();
-        //transform.rotation = Quaternion.Euler(0, 0, 0);
-        //transform.position = Respawner.transform.position;
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            winDow.SetActive(false);
-            input.Enable(); moving = false;
-            moveCount = 0;
-            rb.Sleep();
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            transform.position = Respawner.transform.position;
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void MoveRight()
@@ -170,19 +132,19 @@ public class PlayerController : MonoBehaviour
         moveCount++;
         moving = true;
         float remainingAngle = 90;
-        Vector3 rotationCenter = transform.position + direction / 2f + Vector3.down / 2f;
+        Vector3 rotationCenter = transform.position + direction + Vector3.down / 2f;
         Vector3 rotationAxis = Vector3.Cross(Vector3.up, direction);
 
         while (remainingAngle > 0)
         {
             float rotationAngle = Mathf.Min(Time.deltaTime * speed, remainingAngle);
             transform.RotateAround(rotationCenter, rotationAxis, rotationAngle);
-            remainingAngle -= rotationAngle; 
+            remainingAngle -= rotationAngle;
             yield return null;
         }
         Vector3 tmp = transform.position;
         tmp.x = Mathf.Round(tmp.x);
-        tmp.y = 0.5f;
+        //tmp.y = 0.5f;
         tmp.z = Mathf.Round(tmp.z);
         transform.position = tmp;
         movingDown = false;
@@ -201,8 +163,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetScene(int scene)
+    public void NextScene()
     {
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -14,7 +14,9 @@ public class winCheckone : MonoBehaviour
     public GameObject star3;
     public GameObject redstar;
     public TextMeshProUGUI movement;
+
     PlayerController playerController;
+    public CameraShake cameraShake;
     [SerializeField] GameObject player;
 
     void Start() 
@@ -34,6 +36,7 @@ public class winCheckone : MonoBehaviour
         {
             winDow.SetActive(true);
             playerController.input.Disable();
+            
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
                 if (playerController.moveCount > 4)

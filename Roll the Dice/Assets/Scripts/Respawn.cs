@@ -11,6 +11,7 @@ public class Respawn : MonoBehaviour
     private void Awake()
     {
         playerController = player.GetComponent<PlayerController>();
+        GameObject.FindGameObjectWithTag("Music").GetComponent<playMusic>().PlayMusic();
     }
     private void OnTriggerEnter(Collider other)
     {

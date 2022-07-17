@@ -36,7 +36,6 @@ public class winCheckone : MonoBehaviour
         {
             winDow.SetActive(true);
             playerController.input.Disable();
-            
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
                 if (playerController.moveCount > 4)
@@ -90,6 +89,25 @@ public class winCheckone : MonoBehaviour
                     star2.SetActive(false);
                 }
                 if (playerController.moveCount > 124)
+                {
+                    star1.SetActive(false);
+                }
+            }
+            if (SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                if (playerController.moveCount > 20)
+                {
+                    redstar.SetActive(false);
+                }
+                if (playerController.moveCount > 21)
+                {
+                    star3.SetActive(false);
+                }
+                if (playerController.moveCount > 24)
+                {
+                    star2.SetActive(false);
+                }
+                if (playerController.moveCount > 36)
                 {
                     star1.SetActive(false);
                 }

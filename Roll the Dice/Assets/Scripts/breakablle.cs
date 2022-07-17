@@ -6,6 +6,11 @@ public class breakablle : MonoBehaviour
 {
     public Rigidbody rb;
     private Vector3 spawn;
+    public CameraShake cameraShake;
+    public float elapsed = 0;
+    public MeshRenderer breakables;
+    AudioSource audioSrc;
+    public AudioClip brickbreak;
 
     private void Awake()
     {
@@ -16,17 +21,26 @@ public class breakablle : MonoBehaviour
 
     void Start()
     {
+        audioSrc = GetComponent<AudioSource>();
     }
     private void OnCollisionExit(Collision collision)
     {
-        rb.isKinematic = false;
-        rb.useGravity = true;
+        StartCoroutine(cameraShake.Shake(.15f, .1f));
+        rb.detectCollisions = false;
+        breakables.enabled = false;
+        audioSrc.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+        audioSrc.PlayOneShot(brickbreak, 1);
+    }
+
+    private void Update()
+    {
+
     }
 
     public void Respawn()
     {
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        rb.detectCollisions = true;
+        breakables.enabled = false;
         this.gameObject.transform.position = spawn;
         transform.rotation = Quaternion.Euler(-90, 0, 0);
     }

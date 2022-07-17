@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public GameObject winDow;
     public GameObject bridge;
     public GameObject pauseMenu;
+    AudioSource audioSrc;
+    public AudioClip move;
 
     [SerializeField] private float speed;
     [HideInInspector] private float gravity = 5;
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool movingUp = false;
     [HideInInspector] public bool movingDown = false;
     [HideInInspector] public bool timescale = false;
-    [HideInInspector] public int portalled = 0;
+    public int portalled = 0;
 
     private void Awake()
     {
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         input.Ground.MoveRight.performed += _ => MoveRight();
         input.Ground.Reset.performed += _ => Reset();
         input.Ground.Pause.performed += _ => Pause();
+        audioSrc = GetComponent<AudioSource>();
         Application.targetFrameRate = 120;
     }
 
@@ -145,18 +148,26 @@ public class PlayerController : MonoBehaviour
 
         if (movingRight == true)
         {
+            audioSrc.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSrc.PlayOneShot(move, 1);
             StartCoroutine(Roll(Vector3.right));
         }
         else if (movingLeft == true)
         {
+            audioSrc.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSrc.PlayOneShot(move, 1);
             StartCoroutine(Roll(Vector3.left));
         }
         else if (movingUp == true)
         {
+            audioSrc.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSrc.PlayOneShot(move, 1);
             StartCoroutine(Roll(Vector3.forward));
         }
         else if (movingDown == true)
         {
+            audioSrc.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSrc.PlayOneShot(move, 1);
             StartCoroutine(Roll(Vector3.back));
         }
         Vector3 tmp = transform.position;
